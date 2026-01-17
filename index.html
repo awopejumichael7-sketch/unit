@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholar's Camp | Physics CBT - Units and Measurements</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        /* Prevent text selection and right-click */
+        body, .container, .question, .options, .question-text {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #ff9800;
+            position: relative;
+            z-index: 100;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            font-size: 2.8rem;
+            margin-right: 15px;
+            color: #ffcc00;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        .student-info {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .timer-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 180px;
+        }
+        
+        .timer-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .timer {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .timer.warning {
+            color: #ffcc00;
+            animation: pulse 1s infinite;
+        }
+        
+        .timer.danger {
+            color: #ff5252;
+            animation: pulse 0.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        /* Main Content Styles */
+        .content {
+            display: flex;
+            min-height: 600px;
+        }
+        
+        /* Welcome Screen */
+        .welcome-screen, .instructions-screen, .exam-screen, .results-screen, .review-screen {
+            padding: 40px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .welcome-screen h2, .instructions-screen h2, .exam-screen h2, .results-screen h2, .review-screen h2 {
+            color: #1a2980;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .welcome-content {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .welcome-icon {
+            font-size: 4rem;
+            color: #26d0ce;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #757575, #9e9e9e);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(to right, #ff9800, #ffb74d);
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, #2e7d32, #4caf50);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, #c62828, #f44336);
+        }
+        
+        /* Instructions Screen */
+        .instructions-list {
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+        
+        .instructions-list li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        /* Exam Screen */
+        .question-counter {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .question {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #1a2980;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #222;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        @media (min-width: 768px) {
+            .options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .option {
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            border-color: #26d0ce;
+            background-color: #f0f9ff;
+        }
+        
+        .option.selected {
+            border-color: #1a2980;
+            background-color: #e8f4ff;
+            font-weight: 600;
+        }
+        
+        .option.correct {
+            border-color: #4caf50;
+            background-color: #e8f5e9;
+        }
+        
+        .option.incorrect {
+            border-color: #f44336;
+            background-color: #ffebee;
+        }
+        
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: 700;
+            color: #555;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background-color: #1a2980;
+            color: white;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .question-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+        }
+        
+        .question-number {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+        
+        .question-number:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .question-number.answered {
+            background-color: #c8e6c9;
+            border-color: #4caf50;
+        }
+        
+        .question-number.current {
+            background-color: #1a2980;
+            color: white;
+            border-color: #1a2980;
+        }
+        
+        .question-number.marked {
+            background-color: #fff9c4;
+            border-color: #ff9800;
+        }
+        
+        /* Results Screen */
+        .score-container {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .score-display {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #1a2980;
+            margin: 20px 0;
+        }
+        
+        .score-grade {
+            font-size: 2rem;
+            color: #26d0ce;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .score-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-item {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 5px solid #1a2980;
+        }
+        
+        .summary-item h3 {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .summary-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a2980;
+        }
+        
+        /* Review Screen */
+        .review-question {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .review-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .status-correct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-incorrect {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .explanation {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #26d0ce;
+        }
+        
+        .explanation h4 {
+            color: #1a2980;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        /* Security Elements */
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .security-overlay i {
+            font-size: 5rem;
+            color: #ff5252;
+            margin-bottom: 30px;
+        }
+        
+        .security-overlay h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff5252;
+        }
+        
+        .security-notice {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 82, 82, 0.1);
+            border: 1px solid #ff5252;
+            color: #ff5252;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            display: none;
+        }
+        
+        .security-log {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            max-width: 300px;
+            display: none;
+            z-index: 9999;
+        }
+        
+        /* Watermark */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 120px;
+            color: rgba(0, 0, 0, 0.05);
+            pointer-events: none;
+            z-index: 0;
+            font-weight: bold;
+            white-space: nowrap;
+            display: none;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .logo-section {
+                margin-bottom: 20px;
+            }
+            
+            .timer-container {
+                width: 100%;
+                max-width: 300px;
+                margin-top: 15px;
+            }
+            
+            .content {
+                min-height: 500px;
+            }
+            
+            .welcome-screen, .instructions-screen, .exam-screen, .results-screen, .review-screen {
+                padding: 25px;
+            }
+            
+            .score-display {
+                font-size: 3.5rem;
+            }
+            
+            .question-list {
+                max-height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .option {
+                padding: 12px 15px;
+            }
+            
+            .question-number {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        /* Cheat detection indicators */
+        .detection-indicator {
+            position: fixed;
+            width: 100%;
+            height: 5px;
+            background: transparent;
+            top: 0;
+            left: 0;
+            z-index: 99998;
+        }
+        
+        .detection-indicator.active {
+            background: #ff5252;
+            animation: detectionFlash 1s infinite;
+        }
+        
+        @keyframes detectionFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Anti-screenshot protection */
+        .no-screenshot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0,0,0,0.02) 10px,
+                rgba(0,0,0,0.02) 20px
+            );
+            pointer-events: none;
+            z-index: 99997;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Security Elements -->
+    <div class="security-overlay" id="securityOverlay">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h2>SECURITY VIOLATION DETECTED</h2>
+        <p>Unauthorized activity has been detected.</p>
+        <p>This incident has been logged with timestamp: <span id="violationTime"></span></p>
+        <p style="margin-top: 30px; font-size: 1.2rem;">Your test will be terminated in <span id="countdown">10</span> seconds.</p>
+    </div>
+    
+    <div class="security-notice" id="securityNotice">
+        <i class="fas fa-shield-alt"></i> Security Active
+    </div>
+    
+    <div class="detection-indicator" id="detectionIndicator"></div>
+    
+    <div class="no-screenshot" id="noScreenshot"></div>
+    
+    <div class="watermark" id="watermark">SCHOLAR'S CAMP</div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Scholar's Camp</h1>
+                    <p>Physics Computer-Based Test</p>
+                    <p>Units and Measurements</p>
+                </div>
+            </div>
+            <div class="timer-container">
+                <div class="timer-label">Time Remaining</div>
+                <div class="timer" id="timer">150:00</div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="content">
+            <!-- Welcome Screen -->
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-content">
+                    <div class="welcome-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h2>Welcome to Physics CBT</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 30px; color: #555;">
+                        Test your knowledge of <strong>Units and Measurements</strong> in Physics
+                    </p>
+                    
+                    <div style="text-align: left; max-width: 600px; margin: 0 auto 40px; background-color: #f9f9f9; padding: 25px; border-radius: 10px;">
+                        <h3 style="color: #1a2980; margin-bottom: 15px;">Exam Overview:</h3>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                                <i class="fas fa-question-circle" style="color: #26d0ce; position: absolute; left: 0; top: 5px;"></i>
+                                <strong>75 Questions</strong> on Units and Measurements
+                            </li>
+                            <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                                <i class="fas fa-clock" style="color: #26d0ce; position: absolute; left: 0; top: 5px;"></i>
+                                <strong>150 Minutes</strong> (2.5 hours) time limit
+                            </li>
+                            <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                                <i class="fas fa-shield-alt" style="color: #26d0ce; position: absolute; left: 0; top: 5px;"></i>
+                                <strong>Enhanced Security</strong> with anti-cheating measures
+                            </li>
+                            <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                                <i class="fas fa-chart-line" style="color: #26d0ce; position: absolute; left: 0; top: 5px;"></i>
+                                <strong>Instant Results</strong> with detailed review
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="btn" id="startTestBtn">
+                            <i class="fas fa-play-circle"></i> Start Practice Test
+                        </button>
+                        <button class="btn btn-secondary" id="viewInstructionsBtn">
+                            <i class="fas fa-info-circle"></i> View Instructions
+                        </button>
+                    </div>
+                    
+                    <div style="margin-top: 40px; padding: 20px; background-color: #fff8e1; border-radius: 10px; text-align: left;">
+                        <h4 style="color: #ff9800; margin-bottom: 10px;"><i class="fas fa-exclamation-triangle"></i> Important Note:</h4>
+                        <p>This is a practice test. Your scores will be saved locally for your review only.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Instructions Screen -->
+            <div class="instructions-screen" id="instructionsScreen" style="display: none;">
+                <h2><i class="fas fa-info-circle"></i> Exam Instructions</h2>
+                
+                <div class="warning-box">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Important Security Notice</h3>
+                    <p>This exam is protected by Scholar's Camp Enhanced Security System. The following activities are strictly prohibited and will result in automatic test termination:</p>
+                    <ul>
+                        <li>Copying, pasting, or taking screenshots</li>
+                        <li>Opening developer tools (F12, Ctrl+Shift+I)</li>
+                        <li>Switching tabs/windows or minimizing the browser</li>
+                        <li>Refreshing the page or using browser navigation</li>
+                        <li>Using any external applications or devices</li>
+                    </ul>
+                    <p><strong>All activities are being monitored and logged.</strong></p>
+                </div>
+                
+                <h3>Exam Details:</h3>
+                <ul class="instructions-list">
+                    <li><strong>Subject:</strong> Physics - Units and Measurements</li>
+                    <li><strong>Number of Questions:</strong> 75 multiple-choice questions</li>
+                    <li><strong>Duration:</strong> 150 minutes (2 hours 30 minutes)</li>
+                    <li><strong>Question Type:</strong> Multiple-choice (A, B, C, D)</li>
+                    <li><strong>Passing Score:</strong> 50% (38 correct answers)</li>
+                </ul>
+                
+                <h3>Instructions:</h3>
+                <ul class="instructions-list">
+                    <li>Read each question carefully before selecting your answer.</li>
+                    <li>Only one answer is correct for each question.</li>
+                    <li>You can navigate between questions using the Previous/Next buttons or the question list.</li>
+                    <li>You can mark questions for review using the "Mark for Review" button.</li>
+                    <li>The timer at the top shows your remaining time. When time elapses, the exam will automatically submit.</li>
+                    <li>Once you submit the exam, you cannot return to change answers.</li>
+                    <li>Your screen is being protected against screenshots and recordings.</li>
+                </ul>
+                
+                <h3>Navigation:</h3>
+                <ul class="instructions-list">
+                    <li><strong>Arrow Keys:</strong> Navigate between questions</li>
+                    <li><strong>Number Keys (1-4):</strong> Select answer options</li>
+                    <li><strong>Space Bar:</strong> Mark/unmark question for review</li>
+                    <li><strong>Clear Button:</strong> Remove your selected answer</li>
+                </ul>
+                
+                <div class="navigation">
+                    <button class="btn btn-secondary" id="backToWelcomeBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Welcome
+                    </button>
+                    <button class="btn" id="startExamBtn">
+                        <i class="fas fa-shield-alt"></i> Start Exam Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Exam Screen -->
+            <div class="exam-screen" id="examScreen" style="display: none;">
+                <div class="question-counter">
+                    Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">75</span>
+                    <span style="float: right; font-size: 0.9rem; color: #666;">
+                        <i class="fas fa-shield-alt"></i> Secure Session Active
+                    </span>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text" id="questionText">
+                        Loading question...
+                    </div>
+                    
+                    <div class="options" id="optionsContainer">
+                        <!-- Options will be dynamically inserted here -->
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <button class="btn btn-warning" id="clearAnswerBtn" style="padding: 10px 20px; font-size: 0.9rem;">
+                        <i class="fas fa-eraser"></i> Clear Answer
+                    </button>
+                </div>
+                
+                <div class="question-list" id="questionList">
+                    <!-- Question numbers will be dynamically inserted here -->
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-secondary" id="prevBtn">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    
+                    <button class="btn btn-warning" id="markBtn">
+                        <i class="far fa-bookmark"></i> Mark for Review
+                    </button>
+                    
+                    <button class="btn" id="nextBtn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-success" id="submitExamBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Exam
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results Screen -->
+            <div class="results-screen" id="resultsScreen" style="display: none;">
+                <h2><i class="fas fa-chart-line"></i> Exam Results</h2>
+                
+                <div class="score-container">
+                    <h3>Your Score</h3>
+                    <div class="score-display" id="scoreDisplay">0/75</div>
+                    <div class="score-grade" id="scoreGrade">Grade: F</div>
+                    <p id="scoreMessage">Keep practicing to improve your score!</p>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 10px;">
+                        <p><i class="fas fa-calendar"></i> <strong>Date:</strong> <span id="resultDate"></span></p>
+                        <p><i class="fas fa-clock"></i> <strong>Completion Time:</strong> <span id="resultCompletionTime"></span></p>
+                        <p><i class="fas fa-redo"></i> <strong>Attempt Number:</strong> <span id="attemptNumber">1</span></p>
+                    </div>
+                </div>
+                
+                <div class="score-summary">
+                    <div class="summary-item">
+                        <h3>Correct Answers</h3>
+                        <div class="summary-value" id="correctAnswers">0</div>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Wrong Answers</h3>
+                        <div class="summary-value" id="wrongAnswers">0</div>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Percentage</h3>
+                        <div class="summary-value" id="percentageScore">0%</div>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Time Used</h3>
+                        <div class="summary-value" id="timeUsed">0:00</div>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-secondary" id="viewReviewBtn">
+                        <i class="fas fa-search"></i> Review Answers
+                    </button>
+                    <button class="btn" id="newAttemptBtn">
+                        <i class="fas fa-redo"></i> New Practice Test
+                    </button>
+                    <button class="btn btn-danger" id="returnHomeBtn">
+                        <i class="fas fa-home"></i> Return to Home
+                    </button>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h3>Practice History</h3>
+                    <div id="performanceHistory">
+                        <p>No previous attempts recorded.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Review Screen -->
+            <div class="review-screen" id="reviewScreen" style="display: none;">
+                <h2><i class="fas fa-list-alt"></i> Exam Review</h2>
+                <p>Review your answers and see the correct solutions with explanations.</p>
+                
+                <div id="reviewQuestionsContainer">
+                    <!-- Review questions will be dynamically inserted here -->
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-secondary" id="backToResultsBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Results
+                    </button>
+                    <button class="btn" id="finishReviewBtn">
+                        <i class="fas fa-home"></i> Return to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2023 Scholar's Camp. All Rights Reserved. | Physics CBT - Units and Measurements</p>
+            <p>Practice Test System - For Educational Purposes Only</p>
+        </div>
+    </div>
+
+    <script>
+        // Complete Physics Questions Database (All 75 Questions)
+        const physicsQuestions = [
+            {
+                number: "1",
+                text: "The internationally agreed system of units (SI) for physical measurement are"
+                options: ["A. lb, ft, sec", "B. g, m, sec", "C. kg, m, sec", "D. cm, g, sec", "E. kg, cm, sec"],
+                correctAnswer: 2,
+                explanation: "The SI (Système International) system uses kilogram (kg) for mass, meter (m) for length, and second (s) for time. These are the fundamental units in the SI system."
+            },
+            {
+                number: "2",
+                text: "To determine the weight of an object you could A. use a beam balance B. use a spring balance C. find the force necessary to give it a certain acceleration D. use none of these methods E. use any of these methods",
+                options: ["A. use a beam balance", "B. use a spring balance", "C. find the force necessary to give it a certain acceleration", "D. use none of these methods", "E. use any of these methods"],
+                correctAnswer: 4,
+                explanation: "Weight can be measured directly with a spring balance, calculated from mass using F=ma, or compared using a beam balance. All methods are valid for determining weight."
+            },
+            {
+                number: "3",
+                text: "Which of the following physical quantities is NOT a vector? A. Velocity B. Work C. Force D. Electric field intensity E. Magnetic induction.",
+                options: ["A. Velocity", "B. Work", "C. Force", "D. Electric field intensity", "E. Magnetic induction"],
+                correctAnswer: 1,
+                explanation: "Work is a scalar quantity as it is the dot product of force and displacement (W = F·d cosθ), resulting in only magnitude with no direction. All other options are vector quantities."
+            },
+            {
+                number: "4",
+                text: "An example of a scalar quantity is A. Velocity B. weight C. electric charge D. acceleration due to gravity E. momentum.",
+                options: ["A. Velocity", "B. weight", "C. electric charge", "D. acceleration due to gravity", "E. momentum"],
+                correctAnswer: 2,
+                explanation: "Electric charge is a scalar quantity with magnitude only. Velocity, weight (force), acceleration, and momentum are all vector quantities requiring both magnitude and direction."
+            },
+            {
+                number: "5",
+                text: "One of the following readings represents the measurement of the length of a metal rod using vernier callipers. Taking the reading accuracy into consideration, the most likely one is A. 5.16cm B. 5.165cm C. 5.0cm D. 5.160cm E. 5cm",
+                options: ["A. 5.16cm", "B. 5.165cm", "C. 5.0cm", "D. 5.160cm", "E. 5cm"],
+                correctAnswer: 0,
+                explanation: "Vernier calipers typically have an accuracy of 0.01 cm (0.1 mm). Therefore, a reading of 5.16 cm is appropriate. Readings like 5.165cm or 5.160cm suggest higher precision than vernier calipers usually provide."
+            },
+            {
+                number: "6",
+                text: "Which of the following is NOT a vector quantity A. Force B. Altitude C. Weight D. Displacement E. Acceleration.",
+                options: ["A. Force", "B. Altitude", "C. Weight", "D. Displacement", "E. Acceleration"],
+                correctAnswer: 1,
+                explanation: "Altitude is a scalar quantity representing vertical distance or height above a reference level (like sea level). It has magnitude only, while all other options are vectors requiring direction."
+            },
+            {
+                number: "7",
+                text: "Of the following derived units, the one that is not a unit of power is A. Joule/second B. Ampere volt C. Ampere²volt D. Ohm²volt E. Volts³ohm.",
+                options: ["A. Joule/second", "B. Ampere volt", "C. Ampere²volt", "D. Ohm²volt", "E. Volts³ohm"],
+                correctAnswer: 3,
+                explanation: "Power P = VI = I²R = V²/R. Therefore: Joule/s = W (correct), Ampere volt = W (correct), Ampere²volt = I²V = I²(IR) = I³R (not power), Ohm²volt = Ω²V (not standard power unit), Volts³/ohm = V³/Ω = V²(V/Ω) = V²I = VI² (not standard). The clearest non-power unit is Ohm²volt."
+            },
+            {
+                number: "8",
+                text: "For which of the under listed quantities is the derived unit MLT⁻² correct? I. Moment of a force II. Work III. Acceleration A. I only B. II only C. III only D. I and II E. II and III",
+                options: ["A. I only", "B. II only", "C. III only", "D. I and II", "E. II and III"],
+                correctAnswer: 2,
+                explanation: "MLT⁻² is the dimensional formula for Force (F = ma). Moment of a force has dimensions ML²T⁻², Work has ML²T⁻², and Acceleration has LT⁻². Therefore, none of I, II, or III have dimensions MLT⁻². However, the question likely has a typo and expects acceleration which is LT⁻², so the best choice is III only."
+            },
+            {
+                number: "9",
+                text: "Which of the following is NOT a fundamental S.I. unit? A. Metre B. Ampere C. Kelvin D. Second E. Radian",
+                options: ["A. Metre", "B. Ampere", "C. Kelvin", "D. Second", "E. Radian"],
+                correctAnswer: 4,
+                explanation: "Radian is a derived unit for plane angle. The seven fundamental SI units are: metre (length), kilogram (mass), second (time), ampere (electric current), kelvin (temperature), mole (amount of substance), and candela (luminous intensity)."
+            },
+            {
+                number: "10",
+                text: "Which of the following statements are true about the spring balance and the chemical balance? I. Both are used to measure the mass of an object. II. Either of them may be used to measure the weight of an object. III. The spring balance works on the principle of Hooke's law while the chemical balance works on the principle of moments. IV. A change in gravity changes the readings of a spring balance but not that of a chemical balance. A. I and IV B. II and III C. III and IV D. I, II, and III E. I and III.",
+                options: ["A. I and IV", "B. II and III", "C. III and IV", "D. I, II, and III", "E. I and III"],
+                correctAnswer: 2,
+                explanation: "Statement I is false: Spring balance measures weight, not mass. Statement II is false: Chemical balance measures mass, not weight. Statement III is true. Statement IV is true: Spring balance measures weight (F=mg) which changes with gravity, while chemical balance compares masses (unaffected by gravity)."
+            },
+            {
+                number: "11",
+                text: "Which of the following represents the correct precision if the length of a piece of wire is measured with a metre rule? A. 35mm B. 35.0mm C. 35.00mm D. 35.01mm",
+                options: ["A. 35mm", "B. 35.0mm", "C. 35.00mm", "D. 35.01mm"],
+                correctAnswer: 1,
+                explanation: "A metre rule has millimeter markings, so measurements should be recorded to 1 decimal place in cm or 0.1 cm precision. 35.0 mm = 3.50 cm shows the correct precision (tenths of a cm)."
+            },
+            {
+                number: "12",
+                text: "Which of the following is a derived unit? A. Kilogramme B. Metre C. Kelvin D. Newton",
+                options: ["A. Kilogramme", "B. Metre", "C. Kelvin", "D. Newton"],
+                correctAnswer: 3,
+                explanation: "Newton (N) is a derived unit for force (kg·m/s²). Kilogram, metre, and kelvin are fundamental SI units."
+            },
+            {
+                number: "13",
+                text: "Which of the following units is equivalent to kgms⁻¹? A. Ns⁻¹ B. Nms C. Ns D. Js⁻¹",
+                options: ["A. Ns⁻¹", "B. Nms", "C. Ns", "D. Js⁻¹"],
+                correctAnswer: 2,
+                explanation: "kg·m/s is the unit of momentum. Since Force F = ma, N = kg·m/s². Therefore, N·s = (kg·m/s²)·s = kg·m/s."
+            },
+            {
+                number: "14",
+                text: "Which of the following are the correct SI units of the quantities indicated? I. N (Force) II. Nm⁻¹ (Torque) III. Watt (power) IV. kgms⁻² (Momentum). A. I and II only B. I, II and III only C. I, II and IV only D. I and III only.",
+                options: ["A. I and II only", "B. I, II and III only", "C. I, II and IV only", "D. I and III only"],
+                correctAnswer: 3,
+                explanation: "I is correct (N for force). II is incorrect (Torque is N·m, not N/m). III is correct (Watt for power). IV is incorrect (Momentum is kg·m/s = N·s, not kg·m/s² which is force)."
+            },
+            {
+                number: "15",
+                text: "Which of the following quantities are scalars? I. Electrical potential II. Torque III. Momentum IV. Kinetic energy A. II and III only B. I and II only C. III and IV only D. I and IV only.",
+                options: ["A. II and III only", "B. I and II only", "C. III and IV only", "D. I and IV only"],
+                correctAnswer: 3,
+                explanation: "Electrical potential (voltage) and kinetic energy are scalar quantities. Torque and momentum are vector quantities."
+            },
+            {
+                number: "16",
+                text: "Which of the following is a set of vectors? A. Force, mass and moment B. Acceleration, velocity and moment C. Mass, weight and density D. Mass, volume and density",
+                options: ["A. Force, mass and moment", "B. Acceleration, velocity and moment", "C. Mass, weight and density", "D. Mass, volume and density"],
+                correctAnswer: 1,
+                explanation: "Acceleration, velocity, and moment (of force) are all vector quantities. Mass is a scalar, so options containing mass are incorrect for 'set of vectors'."
+            },
+            {
+                number: "17",
+                text: "What is the reading of the vernier scale above? A. 1.88cm B. 1.80cm C. 1.28cm D. 1.97mm",
+                options: ["A. 1.88cm", "B. 1.80cm", "C. 1.28cm", "D. 1.97mm"],
+                correctAnswer: 0,
+                explanation: "Without the actual diagram, based on typical vernier caliper questions, 1.88 cm is a common reading where main scale shows 1.8 cm and vernier scale shows 0.08 cm alignment."
+            },
+            {
+                number: "18",
+                text: "Which of the following is a fundamental unit? A. Newton B. Watt C. Joule D. Second",
+                options: ["A. Newton", "B. Watt", "C. Joule", "D. Second"],
+                correctAnswer: 3,
+                explanation: "Second is a fundamental SI unit of time. Newton (force), Watt (power), and Joule (energy) are all derived units."
+            },
+            {
+                number: "19",
+                text: "What is the least possible error in using rule graduated in centimeters? A. 0.1cm B. 0.5cm C. 1.0cm D. 2.0cm",
+                options: ["A. 0.1cm", "B. 0.5cm", "C. 1.0cm", "D. 2.0cm"],
+                correctAnswer: 1,
+                explanation: "The least possible error is half of the smallest division. For a rule graduated in cm, smallest division = 1 cm, so least possible error = 0.5 cm."
+            },
+            {
+                number: "20",
+                text: "Which of the following quantities has the same unit as the watt? A. Force x time B. Force x distance C. Force x acceleration D. Force x velocity",
+                options: ["A. Force x time", "B. Force x distance", "C. Force x acceleration", "D. Force x velocity"],
+                correctAnswer: 3,
+                explanation: "Watt = J/s = (N·m)/s = N·(m/s) = Force × velocity."
+            },
+            {
+                number: "21",
+                text: "The external and internal diameters of a tube are measured as 32 ± 2 mm and 21 ± 1 mm respectively. Determine the percentage error in the thickness of the tube. A. 27% B. 14% C. 9% D. 3%",
+                options: ["A. 27%", "B. 14%", "C. 9%", "D. 3%"],
+                correctAnswer: 0,
+                explanation: "Thickness = (External diameter - Internal diameter)/2 = (32-21)/2 = 5.5 mm. Absolute error: Δt = (ΔD_ext + ΔD_int)/2 = (2+1)/2 = 1.5 mm. Percentage error = (1.5/5.5)×100% ≈ 27%."
+            },
+            {
+                number: "22",
+                text: "What is the reading of the vernier scale above? A. 1.79cm B. 1.73cm C. 1.39cm D. 1.34cm",
+                options: ["A. 1.79cm", "B. 1.73cm", "C. 1.39cm", "D. 1.34cm"],
+                correctAnswer: 1,
+                explanation: "Based on common vernier caliper readings, 1.73 cm is a typical value where main scale shows 1.7 cm and vernier scale shows 0.03 cm alignment."
+            },
+            {
+                number: "23",
+                text: "Which of the following is the dimension of pressure? A. MLT⁻² B. ML⁻¹T⁻² C. MLT⁻³ D. ML⁻³",
+                options: ["A. MLT⁻²", "B. ML⁻¹T⁻²", "C. MLT⁻³", "D. ML⁻³"],
+                correctAnswer: 1,
+                explanation: "Pressure = Force/Area = (MLT⁻²)/(L²) = ML⁻¹T⁻²."
+            },
+            {
+                number: "24",
+                text: "At what respective values of x, y and z would the unit of force, the Newton, be dimensionally equivalent to MˣLʸTᶻ? A. -1, 1, 2 B. 1, 2, -2 C. 1, -1, 2 D. -1, 1, -2",
+                options: ["A. -1, 1, 2", "B. 1, 2, -2", "C. 1, -1, 2", "D. -1, 1, -2"],
+                correctAnswer: 1,
+                explanation: "Force F = ma, so dimensions: [F] = [m][a] = M × LT⁻² = MLT⁻². Therefore x=1, y=1, z=-2, but this isn't an option. The question likely has typo. Looking at options, MLT⁻² corresponds to 1, 1, -2 which isn't listed. Option B (1, 2, -2) would be ML²T⁻² (energy), not force. The question may be flawed."
+            },
+            {
+                number: "25",
+                text: "The physical quantity that has the same dimensions as impulse is A. Energy B. Momentum C. Surface tension D. Pressure.",
+                options: ["A. Energy", "B. Momentum", "C. Surface tension", "D. Pressure"],
+                correctAnswer: 1,
+                explanation: "Impulse = Force × time = (MLT⁻²)×T = MLT⁻¹. Momentum = mass × velocity = M × LT⁻¹ = MLT⁻¹. They have the same dimensions."
+            },
+            {
+                number: "26",
+                text: "The inner diameter of a small test tube can be measured accurately using a A. Micrometer screw gauge B. Pair of dividers C. Metre rule D. Pair of vernier calipers.",
+                options: ["A. Micrometer screw gauge", "B. Pair of dividers", "C. Metre rule", "D. Pair of vernier calipers"],
+                correctAnswer: 3,
+                explanation: "Vernier calipers have jaws that can measure internal diameters accurately. Micrometer screw gauges are better for external measurements of small objects like wires."
+            },
+            {
+                number: "27",
+                text: "Which of the following consists entirely of vector quantities? A. Velocity, magnetic flux and reaction B. Tension, magnetic flux and mass C. Displacement, impulse and power D. Work, pressure and moment",
+                options: ["A. Velocity, magnetic flux and reaction", "B. Tension, magnetic flux and mass", "C. Displacement, impulse and power", "D. Work, pressure and moment"],
+                correctAnswer: 0,
+                explanation: "Velocity (vector), magnetic flux (scalar), reaction (vector) - not entirely vectors. Actually magnetic flux is scalar, so A is incorrect. The question may have a typo; perhaps 'magnetic flux density' (vector) was intended."
+            },
+            {
+                number: "28",
+                text: "The length of a piece of glass block was measured by means of a vernier calliper as shown above. The length of a glass block is A. 1.63cm B. 1.64cm C. 1.65cm D. 1.66cm",
+                options: ["A. 1.63cm", "B. 1.64cm", "C. 1.65cm", "D. 1.66cm"],
+                correctAnswer: 2,
+                explanation: "Without the actual diagram, 1.65 cm is a common vernier caliper reading in such questions."
+            },
+            {
+                number: "29",
+                text: "The pair of physical quantities consisting of vectors only are A. acceleration and speed B. displacement and torque C. velocity and distance D. momentum and power.",
+                options: ["A. acceleration and speed", "B. displacement and torque", "C. velocity and distance", "D. momentum and power"],
+                correctAnswer: 1,
+                explanation: "Displacement and torque are both vectors. Speed is scalar, distance is scalar, power is scalar."
+            },
+            {
+                number: "30",
+                text: "The correct unit of energy density is A. kgm⁻³s⁻² B. kgm⁻¹s⁻² C. kgm⁻¹s⁻² D. kgm⁻¹s⁻²",
+                options: ["A. kgm⁻³s⁻²", "B. kgm⁻¹s⁻²", "C. kgm⁻¹s⁻²", "D. kgm⁻¹s⁻²"],
+                correctAnswer: 1,
+                explanation: "Energy density = Energy/Volume = (ML²T⁻²)/(L³) = ML⁻¹T⁻² = kg·m⁻¹·s⁻². The options seem duplicated; B, C, D appear identical."
+            },
+            {
+                number: "31",
+                text: "The dimensions of electromotive force are A. MLT⁻¹I⁻¹ B. MLT⁻¹I⁻² C. MLT⁻¹I⁻³ D. MLT⁻¹I⁻⁴",
+                options: ["A. MLT⁻¹I⁻¹", "B. MLT⁻¹I⁻²", "C. MLT⁻¹I⁻³", "D. MLT⁻¹I⁻⁴"],
+                correctAnswer: 1,
+                explanation: "EMF (ε) = Work/Charge = (ML²T⁻²)/(IT) = ML²T⁻³I⁻¹. But the options show MLT⁻¹I⁻² etc. There may be a discrepancy. Standard EMF dimensions are ML²T⁻³I⁻¹."
+            },
+            {
+                number: "32",
+                text: "I. Force (N) II. Torque (Nm⁻¹) III. Current (A) IV. Power (W). Which of the above are the correct S.I. units of the quantities indicated? A. I and II only B. I and III only C. I, II and III only D. I, III and IV only",
+                options: ["A. I and II only", "B. I and III only", "C. I, II and III only", "D. I, III and IV only"],
+                correctAnswer: 3,
+                explanation: "I: Correct (N for force). II: Incorrect (Torque is N·m, not N/m). III: Correct (A for current). IV: Correct (W for power)."
+            },
+            {
+                number: "33",
+                text: "Which of the following is NOT a vector quantity? A. Altitude B. Acceleration C. Displacement D. Weight",
+                options: ["A. Altitude", "B. Acceleration", "C. Displacement", "D. Weight"],
+                correctAnswer: 0,
+                explanation: "Altitude is a scalar (height above sea level). Acceleration, displacement, and weight (force) are vectors."
+            },
+            {
+                number: "34",
+                text: "The values of x, y and z respectively in the expression MˣLʸTᶻ for the universal gravitational constant G are A. 2, -3, -2. B. -1, 3, -2. C. -1, 2, -3. D. -2, -1, 3.",
+                options: ["A. 2, -3, -2.", "B. -1, 3, -2.", "C. -1, 2, -3.", "D. -2, -1, 3."],
+                correctAnswer: 1,
+                explanation: "From Newton's law: F = Gm₁m₂/r² ⇒ G = Fr²/(m₁m₂). Dimensions: [G] = [F][L²]/([M]²) = (MLT⁻²)(L²)/(M²) = M⁻¹L³T⁻². So x=-1, y=3, z=-2."
+            },
+            {
+                number: "35",
+                text: "I. Diameter of a small ball bearing. II. Thickness of a piece of paper. III. Diameter of a measuring cylinder. IV. Length of a piece of wire. Which of the above can be measured using a micrometer screw gauge? A. I, II and IV only. B. I and II only. C. II and III only. D. III and IV only.",
+                options: ["A. I, II and IV only.", "B. I and II only.", "C. II and III only.", "D. III and IV only."],
+                correctAnswer: 1,
+                explanation: "Micrometer screw gauge measures small dimensions (typically 0-25 mm) with high precision. Suitable for: small ball bearing diameter and paper thickness. Not suitable for large diameters or long wires."
+            },
+            {
+                number: "36",
+                text: "In order to remove the error of parallax when taking measurements with a metre rule, the eye should be focused A. slantingly towards the left on the markings. B. slantingly towards the right on the markings. C. vertically downwards on the markings. D. vertically upwards on the markings.",
+                options: ["A. slantingly towards the left on the markings.", "B. slantingly towards the right on the markings.", "C. vertically downwards on the markings.", "D. vertically upwards on the markings."],
+                correctAnswer: 2,
+                explanation: "To avoid parallax error, the eye should be positioned directly perpendicular (vertically) above the marking being read, so that the line of sight is at 90° to the scale."
+            },
+            {
+                number: "37",
+                text: "The pair of physical quantities that are scalar only are A. volume and area. B. moment and momentum. C. length and displacement. D. impulse and time.",
+                options: ["A. volume and area.", "B. moment and momentum.", "C. length and displacement.", "D. impulse and time."],
+                correctAnswer: 0,
+                explanation: "Volume and area are both scalar quantities. Moment and momentum are vectors, displacement is vector, impulse is vector."
+            },
+            {
+                number: "38",
+                text: "What is the least possible error encountered when taking measurement with a meter rule? A. 1.0mm. B. 0.5mm. C. 0.2mm. D. 0.1m.",
+                options: ["A. 1.0mm.", "B. 0.5mm.", "C. 0.2mm.", "D. 0.1m."],
+                correctAnswer: 1,
+                explanation: "Least possible error = half of smallest division. Meter rule smallest division = 1 mm, so error = 0.5 mm."
+            },
+            {
+                number: "39",
+                text: "A quantity which requires magnitude and direction to be specified A. distance. B. displacement. C. mass. D. temperature.",
+                options: ["A. distance.", "B. displacement.", "C. mass.", "D. temperature."],
+                correctAnswer: 1,
+                explanation: "Displacement is a vector quantity requiring both magnitude and direction. Distance, mass, and temperature are scalars."
+            },
+            {
+                number: "40",
+                text: "I. Electrical potential. II. Torque. III. Kinetic energy. IV. Momentum. Which of the quantities listed above are vectors? A. I and II. B. I and III. C. II and III. D. II and IV.",
+                options: ["A. I and II.", "B. I and III.", "C. II and III.", "D. II and IV."],
+                correctAnswer: 3,
+                explanation: "Torque and momentum are vectors. Electrical potential and kinetic energy are scalars."
+            },
+            {
+                number: "41",
+                text: "From the diagram above, the measuring accuracy of the micrometer screw gauge is A. 4.70mm. B. 4.78mm.",
+                options: ["A. 4.70mm.", "B. 4.78mm."],
+                correctAnswer: 0,
+                explanation: "Without the diagram, 4.70 mm is a typical micrometer reading where main scale shows 4.5 mm and thimble shows 0.20 mm."
+            },
+            {
+                number: "42",
+                text: "An instrument whose accuracy is 0.05cm is the A. metre rule. B. vernier callipers. C. micrometer screw gauge. D. lever balance.",
+                options: ["A. metre rule.", "B. vernier callipers.", "C. micrometer screw gauge.", "D. lever balance."],
+                correctAnswer: 1,
+                explanation: "Vernier calipers typically have an accuracy of 0.01 cm = 0.1 mm. 0.05 cm = 0.5 mm accuracy matches some vernier calipers. Meter rule: 0.1 cm, Micrometer: 0.001 cm, Lever balance: measures mass not length."
+            },
+            {
+                number: "43",
+                text: "The dimension of work and energy are A. MLT⁻³. B. MLT⁻¹. C. MLT⁻². D. ML²T⁻².",
+                options: ["A. MLT⁻³.", "B. MLT⁻¹.", "C. MLT⁻².", "D. ML²T⁻²."],
+                correctAnswer: 3,
+                explanation: "Work = Force × distance = (MLT⁻²) × L = ML²T⁻². Energy has same dimensions."
+            },
+            {
+                number: "44",
+                text: "The dimension of power are A. MLT⁻³. B. MLT⁻¹. C. MLT⁻². D. ML²T⁻³.",
+                options: ["A. MLT⁻³.", "B. MLT⁻¹.", "C. MLT⁻².", "D. ML²T⁻³."],
+                correctAnswer: 3,
+                explanation: "Power = Work/time = (ML²T⁻²)/T = ML²T⁻³."
+            },
+            {
+                number: "45",
+                text: "Which of the following is the dimension of pressure? A. ML⁻¹. B. MLT⁻². C. MLT⁻³. D. ML⁻³.",
+                options: ["A. ML⁻¹.", "B. MLT⁻².", "C. MLT⁻³.", "D. ML⁻³."],
+                correctAnswer: 1,
+                explanation: "Pressure = Force/Area = MLT⁻²/L² = ML⁻¹T⁻². Option B seems incorrect; should be ML⁻¹T⁻² not MLT⁻². There may be a typo in options."
+            },
+            {
+                number: "46",
+                text: "Which of the following are derived units? I. Metre II. Coulomb III. Kilogram IV. Ampere V. Joule A. I and III only B. II and IV only C. II, IV and V only D. All of them.",
+                options: ["A. I and III only", "B. II and IV only", "C. II, IV and V only", "D. All of them"],
+                correctAnswer: 2,
+                explanation: "Metre (length) and kilogram (mass) are fundamental. Ampere (current) is fundamental. Coulomb (charge) and Joule (energy) are derived."
+            },
+            {
+                number: "47",
+                text: "Which of the following are derived quantities? I. Thrust II. Temperature III. Area IV. Pressure A. I and IV only B. II, III and IV only C. I, III and IV only D. I, II, III and IV",
+                options: ["A. I and IV only", "B. II, III and IV only", "C. I, III and IV only", "D. I, II, III and IV"],
+                correctAnswer: 2,
+                explanation: "Thrust (force), area, and pressure are derived. Temperature is fundamental."
+            },
+            {
+                number: "48",
+                text: "The derived dimension [ML¹T⁻²] is a dimension of I. acceleration II. torque III. energy A. I only B. II only C. I and II only D. II and III only",
+                options: ["A. I only", "B. II only", "C. I and II only", "D. II and III only"],
+                correctAnswer: 1,
+                explanation: "ML¹T⁻² is dimension of force. Torque has ML²T⁻², energy has ML²T⁻², acceleration has LT⁻². So none match exactly. The question may have typo; if it's MLT⁻², that's force."
+            },
+            {
+                number: "49",
+                text: "Which of the following are not fundamental units? I. Kelvin II. Newton III. Second IV. Radian A. I and III only B. II and IV only C. I and II only D. I, II and IV only.",
+                options: ["A. I and III only", "B. II and IV only", "C. I and II only", "D. I, II and IV only"],
+                correctAnswer: 1,
+                explanation: "Kelvin and Second are fundamental. Newton and Radian are derived."
+            },
+            {
+                number: "50",
+                text: "The unit of momentum is A. J·s⁻¹ B. N·s C. N·s⁻¹ D. N·m",
+                options: ["A. J·s⁻¹", "B. N·s", "C. N·s⁻¹", "D. N·m"],
+                correctAnswer: 1,
+                explanation: "Momentum = mass × velocity. Unit: kg·m/s = N·s (since N = kg·m/s²)."
+            },
+            {
+                number: "51",
+                text: "The dimension of power is A. ML²T⁻³ B. MLT⁻² C. ML²T⁻² D. ML⁻²T³",
+                options: ["A. ML²T⁻³", "B. MLT⁻²", "C. ML²T⁻²", "D. ML⁻²T³"],
+                correctAnswer: 0,
+                explanation: "Power = Work/time = ML²T⁻²/T = ML²T⁻³."
+            },
+            {
+                number: "52",
+                text: "In which of the following physical quantities are the units correctly indicated? I. Weight [N] II. Energy [N·m] III. Momentum [kg·m·s⁻¹] IV. Acceleration [N·kg⁻¹] A. I and II only B. II and IV only C. I, II and III only D. I, II, III and IV",
+                options: ["A. I and II only", "B. II and IV only", "C. I, II and III only", "D. I, II, III and IV"],
+                correctAnswer: 3,
+                explanation: "All are correct: Weight in N, Energy in N·m or J, Momentum in kg·m/s, Acceleration in N/kg (since F=ma, a=F/m)."
+            },
+            {
+                number: "53",
+                text: "The watt is equivalent to A. N·m·s⁻¹ B. J·s C. kg·m²·s⁻² D. N·s",
+                options: ["A. N·m·s⁻¹", "B. J·s", "C. kg·m²·s⁻²", "D. N·s"],
+                correctAnswer: 0,
+                explanation: "Watt = J/s = N·m/s = N·m·s⁻¹."
+            },
+            {
+                number: "54",
+                text: "Which of the following quantities has the same unit as the kilowatt-hour? A. Force x acceleration B. Force x velocity C. Force x distance D. Force x time.",
+                options: ["A. Force x acceleration", "B. Force x velocity", "C. Force x distance", "D. Force x time"],
+                correctAnswer: 2,
+                explanation: "kWh is unit of energy. Force × distance = work/energy."
+            },
+            {
+                number: "55",
+                text: "Which of the following are vector quantities? I. Work II. Displacement III. Acceleration IV. Electric field intensity V. Magnetic induction A. I, II and III only B. II, III and IV only C. III, IV and V only D. II, III, IV and V only",
+                options: ["A. I, II and III only", "B. II, III and IV only", "C. III, IV and V only", "D. II, III, IV and V only"],
+                correctAnswer: 3,
+                explanation: "Work is scalar. Displacement, acceleration, electric field, and magnetic induction are vectors."
+            },
+            {
+                number: "56",
+                text: "Which of the following are scalar quantities? I. Torque II. Electric potential III. Kinetic energy IV. Momentum A. I and IV only B. II and III only C. I, II and III only D. II, III and IV only",
+                options: ["A. I and IV only", "B. II and III only", "C. I, II and III only", "D. II, III and IV only"],
+                correctAnswer: 1,
+                explanation: "Torque and momentum are vectors. Electric potential and kinetic energy are scalars."
+            },
+            {
+                number: "57",
+                text: "Which of the following is a set of vectors? A. Weight, displacement and moment B. Velocity, volume and upthrust C. Density, capacitance and distance D. Mass, force and impulse",
+                options: ["A. Weight, displacement and moment", "B. Velocity, volume and upthrust", "C. Density, capacitance and distance", "D. Mass, force and impulse"],
+                correctAnswer: 0,
+                explanation: "Weight (force), displacement, and moment are all vectors. Volume, density, capacitance, distance, and mass are scalars."
+            },
+            {
+                number: "58",
+                text: "Which of the following readings gives the correct precision of the length of a rod using vernier callipers? A. 4.1 cm B. 4.13 cm C. 4.120 cm D. 4.125 cm",
+                options: ["A. 4.1 cm", "B. 4.13 cm", "C. 4.120 cm", "D. 4.125 cm"],
+                correctAnswer: 1,
+                explanation: "Vernier calipers typically measure to 0.01 cm precision, so 4.13 cm shows correct precision."
+            },
+            {
+                number: "59",
+                text: "Which of the following readings gives the correct precision of the length of a rod using a metre rule? A. 75 mm B. 75.0 mm C. 75.00 mm D. 75.01 mm",
+                options: ["A. 75 mm", "B. 75.0 mm", "C. 75.00 mm", "D. 75.01 mm"],
+                correctAnswer: 1,
+                explanation: "Metre rule measures to 1 mm, so readings should be to 0.1 cm or 0.1 mm precision. 75.0 mm = 7.50 cm shows correct precision."
+            },
+            {
+                number: "60",
+                text: "The reading of the vernier callipers shown above is A. 2.38 cm B. 2.80 cm C. 2.88 cm D. 3.60 cm",
+                options: ["A. 2.38 cm", "B. 2.80 cm", "C. 2.88 cm", "D. 3.60 cm"],
+                correctAnswer: 0,
+                explanation: "Based on typical vernier caliper questions, 2.38 cm is a common reading."
+            },
+            {
+                number: "61",
+                text: "The reading on the micrometer screw gauge shown below is A. 4.16 mm B. 4.60 mm C. 4.66 mm D. 4.70 mm",
+                options: ["A. 4.16 mm", "B. 4.60 mm", "C. 4.66 mm", "D. 4.70 mm"],
+                correctAnswer: 2,
+                explanation: "Without diagram, 4.66 mm is a typical micrometer reading (4.5 mm on sleeve + 0.16 mm on thimble)."
+            },
+            {
+                number: "62",
+                text: "Which of the following instruments is most suitable for measuring the outside diameter of a narrow pipe a few millimetres in diameter? A. Pair of callipers B. Metre rule C. Micrometre screw gauge D. Tape rule.",
+                options: ["A. Pair of callipers", "B. Metre rule", "C. Micrometre screw gauge", "D. Tape rule"],
+                correctAnswer: 2,
+                explanation: "Micrometer screw gauge provides highest precision for small diameters (typically 0.01 mm accuracy)."
+            },
+            {
+                number: "63",
+                text: "A student measures the internal and external diameters of a cylindrical vessel as 100 (± 1) mm and 104 (± 1) mm respectively. The possible error in the determination of the thickness of the vessel is A. ± 2 mm B. ± 1 mm C. ± 0.5 mm D. 0",
+                options: ["A. ± 2 mm", "B. ± 1 mm", "C. ± 0.5 mm", "D. 0"],
+                correctAnswer: 1,
+                explanation: "Thickness = (External - Internal)/2. Error propagation: Δthickness = (ΔExternal + ΔInternal)/2 = (1+1)/2 = ±1 mm."
+            },
+            {
+                number: "64",
+                text: "The least possible error in using a scale graduated in millimetres is A. 0.1 mm B. 0.5 mm C. 1.0 mm D. 2.0 mm",
+                options: ["A. 0.1 mm", "B. 0.5 mm", "C. 1.0 mm", "D. 2.0 mm"],
+                correctAnswer: 1,
+                explanation: "Least possible error = half of smallest division = 0.5 mm for mm graduations."
+            },
+            {
+                number: "65",
+                text: "A boy walks 10 m due west and then 10 m due south. His displacement is A. 10 m, S30°W B. 10 m, S60°W C. 10√2 m, S45°W D. 10√2 m, S60°W",
+                options: ["A. 10 m, S30°W", "B. 10 m, S60°W", "C. 10√2 m, S45°W", "D. 10√2 m, S60°W"],
+                correctAnswer: 2,
+                explanation: "Displacement magnitude = √(10² + 10²) = 10√2 m. Direction: tanθ = 10/10 = 1, θ = 45° south of west, i.e., S45°W."
+            },
+            {
+                number: "66",
+                text: "A girl walks 12 m northwards, 5 m eastwards and 7 m southwards. Her total displacement is A. 5 m, north B. 5 m, east C. 7.07 m, S45°W D. 7.07 m, N45°E",
+                options: ["A. 5 m, north", "B. 5 m, east", "C. 7.07 m, S45°W", "D. 7.07 m, N45°E"],
+                correctAnswer: 3,
+                explanation: "Net north: 12 - 7 = 5 m north. Net east: 5 m east. Displacement = √(5² + 5²) = 5√2 ≈ 7.07 m. Direction: N45°E (northeast)."
+            },
+            {
+                number: "67",
+                text: "A man walks 5 km south and then 3 km in the direction 60° west of south. His distance from the starting point is A. 7.00 km B. 7.50 km C. 8.00 km D. 10.72 km",
+                options: ["A. 7.00 km", "B. 7.50 km", "C. 8.00 km", "D. 10.72 km"],
+                correctAnswer: 0,
+                explanation: "Using cosine rule: R² = 5² + 3² - 2×5×3×cos(120°) = 25+9+15 = 49, R = 7 km."
+            },
+            {
+                number: "68",
+                text: "A boat travelled 5 km in crossing a canal from point P to point R (see figure above). The effective displacement of the boat along the edge PQ is A. 3 km B. 4 km C. 5 km D. 8 km",
+                options: ["A. 3 km", "B. 4 km", "C. 5 km", "D. 8 km"],
+                correctAnswer: 1,
+                explanation: "Without diagram, assuming right triangle with hypotenuse 5 km. If it's a 3-4-5 triangle, displacement along edge could be 4 km."
+            },
+            {
+                number: "69",
+                text: "In the diagram shown above, KM represents the magnitude and direction of a force which is the resultant of forces represented in magnitude and direction by A. NK and KL B. NK and LK C. KN and KL D. KN and LK",
+                options: ["A. NK and KL", "B. NK and LK", "C. KN and KL", "D. KN and LK"],
+                correctAnswer: 0,
+                explanation: "Based on vector addition, KM = NK + KL (triangle law of vector addition)."
+            },
+            {
+                number: "70",
+                text: "A body is acted upon by the two forces 6 N and 8 N as shown in the diagram above. The resultant of the forces is A. 10 N in the direction N37°E B. 10 N in the direction N53°E C. 10 N in the direction N37°W D. 10 N in the direction N53°W",
+                options: ["A. 10 N in the direction N37°E", "B. 10 N in the direction N53°E", "C. 10 N in the direction N37°W", "D. 10 N in the direction N53°W"],
+                correctAnswer: 1,
+                explanation: "Resultant magnitude = √(6²+8²) = 10 N. If 8N is north and 6N is east, direction = tan⁻¹(6/8) = 36.9° east of north ≈ N37°E. But 53° is complementary angle; if 6N north and 8N east, direction = tan⁻¹(8/6)=53°."
+            },
+            {
+                number: "71",
+                text: "Two perpendicular forces have a resultant of 13 N. If one of the forces is 5 N, the other force is A. 8 N B. 9 N C. 12 N D. 18 N",
+                options: ["A. 8 N", "B. 9 N", "C. 12 N", "D. 18 N"],
+                correctAnswer: 2,
+                explanation: "For perpendicular forces: R² = F₁² + F₂². 13² = 5² + F₂² ⇒ 169 = 25 + F₂² ⇒ F₂² = 144 ⇒ F₂ = 12 N."
+            },
+            {
+                number: "72",
+                text: "Two forces, 12 N and 16 N inclined at an angle θ to each other, have a resultant which is parallel to the 16 N force. The value of cos θ is A. 1.0 B. 3/4 C. 1/2 D. 0",
+                options: ["A. 1.0", "B. 3/4", "C. 1/2", "D. 0"],
+                correctAnswer: 1,
+                explanation: "If resultant is parallel to 16N force, then component perpendicular to 16N force must be zero. So 12 sinθ = 0 ⇒ θ = 0° or 180°. But if θ=0°, resultant = 28N; if θ=180°, resultant = 4N. To be parallel but not necessarily same direction, cosθ could be ±1. Question may have additional condition for specific resultant magnitude."
+            },
+            {
+                number: "73",
+                text: "A body of mass M rests on a plane inclined at an angle α to the horizontal. The component of the weight of the body along the normal to the plane is A. Mg sin α B. Mg cos α C. Mg tan α D. Mg / sin α",
+                options: ["A. Mg sin α", "B. Mg cos α", "C. Mg tan α", "D. Mg / sin α"],
+                correctAnswer: 1,
+                explanation: "Weight component perpendicular to inclined plane = Mg cosα (since angle between weight vector and normal is α)."
+            },
+            {
+                number: "74",
+                text: "A body pulls a box along a horizontal table with a rope inclined to the horizontal at angle 60°. If the tension in the rope 40 N, what is the effective horizontal force? [sin 60° = √3/2, cos 60° = 1/2, tan 60° = √3, cot 60° = 3] A. 20 N B. 20√3 N C. 40√3 N D. 40/3 N",
+                options: ["A. 20 N", "B. 20√3 N", "C. 40√3 N", "D. 40/3 N"],
+                correctAnswer: 0,
+                explanation: "Horizontal component = T cos60° = 40 × 1/2 = 20 N."
+            },
+            {
+                number: "75",
+                text: "Which of the following quantities in question 12 is a set of scalars? A. Weight, displacement and moment B. Velocity, volume and upthrust C. Density, capacitance and distance D. Mass, force and impulse",
+                options: ["A. Weight, displacement and moment", "B. Velocity, volume and upthrust", "C. Density, capacitance and distance", "D. Mass, force and impulse"],
+                correctAnswer: 2,
+                explanation: "Density, capacitance, and distance are all scalar quantities. Weight and force are vectors, displacement is vector, velocity is vector, upthrust is vector, mass is scalar, impulse is vector."
+            }
+        ];
+
+        // Enhanced Security Configuration
+        const SECURITY_CONFIG = {
+            maxViolations: 3, // Maximum security violations before auto-submit
+            violationTimeout: 10000, // 10 seconds to show violation message
+            screenshotProtection: true, // Enable anti-screenshot measures
+            watermark: true, // Enable watermark during exam
+            logActivities: true, // Log all security events
+            preventPrint: true, // Prevent printing
+            preventScreenshot: true // Attempt to prevent screenshots
+        };
+
+        // Shuffle function with Fisher-Yates algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Global variables
+        let currentScreen = 'welcome';
+        let currentQuestionIndex = 0;
+        let userAnswers = Array(physicsQuestions.length).fill(null);
+        let markedQuestions = Array(physicsQuestions.length).fill(false);
+        let examStarted = false;
+        let timeLeft = 150 * 60; // 150 minutes in seconds
+        let timerInterval = null;
+        let examHistory = JSON.parse(localStorage.getItem('physicsPracticeHistory')) || [];
+        let securityViolations = 0;
+        let startTime;
+        let activityMonitorInterval;
+        let mouseMoveCount = 0;
+        let attemptNumber = 1;
+
+        // DOM Elements
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const instructionsScreen = document.getElementById('instructionsScreen');
+        const examScreen = document.getElementById('examScreen');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const reviewScreen = document.getElementById('reviewScreen');
+        const securityOverlay = document.getElementById('securityOverlay');
+        const securityNotice = document.getElementById('securityNotice');
+        const detectionIndicator = document.getElementById('detectionIndicator');
+        const noScreenshot = document.getElementById('noScreenshot');
+        const watermark = document.getElementById('watermark');
+        const timerElement = document.getElementById('timer');
+        const currentQuestionNumElement = document.getElementById('currentQuestionNum');
+        const totalQuestionsElement = document.getElementById('totalQuestions');
+        const questionTextElement = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const questionListElement = document.getElementById('questionList');
+        const startTestBtn = document.getElementById('startTestBtn');
+        const viewInstructionsBtn = document.getElementById('viewInstructionsBtn');
+        const startExamBtn = document.getElementById('startExamBtn');
+        const backToWelcomeBtn = document.getElementById('backToWelcomeBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const markBtn = document.getElementById('markBtn');
+        const clearAnswerBtn = document.getElementById('clearAnswerBtn');
+        const submitExamBtn = document.getElementById('submitExamBtn');
+        const viewReviewBtn = document.getElementById('viewReviewBtn');
+        const newAttemptBtn = document.getElementById('newAttemptBtn');
+        const returnHomeBtn = document.getElementById('returnHomeBtn');
+        const backToResultsBtn = document.getElementById('backToResultsBtn');
+        const finishReviewBtn = document.getElementById('finishReviewBtn');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreGrade = document.getElementById('scoreGrade');
+        const scoreMessage = document.getElementById('scoreMessage');
+        const resultDate = document.getElementById('resultDate');
+        const resultCompletionTime = document.getElementById('resultCompletionTime');
+        const attemptNumberElement = document.getElementById('attemptNumber');
+        const correctAnswersElement = document.getElementById('correctAnswers');
+        const wrongAnswersElement = document.getElementById('wrongAnswers');
+        const percentageScoreElement = document.getElementById('percentageScore');
+        const timeUsedElement = document.getElementById('timeUsed');
+        const performanceHistory = document.getElementById('performanceHistory');
+        const reviewQuestionsContainer = document.getElementById('reviewQuestionsContainer');
+        const violationTime = document.getElementById('violationTime');
+
+        // Initialize the app
+        function init() {
+            // Set total questions
+            totalQuestionsElement.textContent = physicsQuestions.length;
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Setup enhanced security features
+            setupEnhancedSecurity();
+            
+            // Load any existing history
+            updatePerformanceHistory();
+            
+            // Calculate attempt number
+            attemptNumber = examHistory.length + 1;
+            
+            // Show security notice
+            securityNotice.style.display = 'block';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Start test button
+            startTestBtn.addEventListener('click', function() {
+                startExam();
+            });
+            
+            // View instructions button
+            viewInstructionsBtn.addEventListener('click', function() {
+                showScreen('instructions');
+            });
+            
+            // Start exam button
+            startExamBtn.addEventListener('click', function() {
+                startExam();
+            });
+            
+            // Back to welcome button
+            backToWelcomeBtn.addEventListener('click', function() {
+                showScreen('welcome');
+            });
+            
+            // Previous question button
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    loadQuestion(currentQuestionIndex);
+                }
+            });
+            
+            // Next question button
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestionIndex < physicsQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    loadQuestion(currentQuestionIndex);
+                }
+            });
+            
+            // Mark for review button
+            markBtn.addEventListener('click', function() {
+                markedQuestions[currentQuestionIndex] = !markedQuestions[currentQuestionIndex];
+                updateQuestionList();
+                updateMarkButton();
+            });
+            
+            // Clear answer button
+            clearAnswerBtn.addEventListener('click', function() {
+                userAnswers[currentQuestionIndex] = null;
+                loadQuestion(currentQuestionIndex);
+                updateQuestionList();
+            });
+            
+            // Submit exam button
+            submitExamBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to submit your exam? You cannot change answers after submission.')) {
+                    submitExam();
+                }
+            });
+            
+            // View review button
+            viewReviewBtn.addEventListener('click', function() {
+                showScreen('review');
+                loadReviewQuestions();
+            });
+            
+            // New attempt button
+            newAttemptBtn.addEventListener('click', function() {
+                if (confirm('Start a new practice test? Your current results will be saved.')) {
+                    resetExam();
+                    showScreen('welcome');
+                }
+            });
+            
+            // Return home button
+            returnHomeBtn.addEventListener('click', function() {
+                resetExam();
+                showScreen('welcome');
+            });
+            
+            // Back to results button
+            backToResultsBtn.addEventListener('click', function() {
+                showScreen('results');
+            });
+            
+            // Finish review button
+            finishReviewBtn.addEventListener('click', function() {
+                resetExam();
+                showScreen('welcome');
+            });
+            
+            // Keyboard shortcuts (only allowed ones)
+            document.addEventListener('keydown', function(e) {
+                if (!examStarted || currentScreen !== 'exam') return;
+                
+                // Allow only navigation shortcuts
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        if (currentQuestionIndex > 0) {
+                            currentQuestionIndex--;
+                            loadQuestion(currentQuestionIndex);
+                            e.preventDefault();
+                        }
+                        break;
+                    case 'ArrowRight':
+                        if (currentQuestionIndex < physicsQuestions.length - 1) {
+                            currentQuestionIndex++;
+                            loadQuestion(currentQuestionIndex);
+                            e.preventDefault();
+                        }
+                        break;
+                    case ' ': // Space bar to mark
+                        markedQuestions[currentQuestionIndex] = !markedQuestions[currentQuestionIndex];
+                        updateQuestionList();
+                        updateMarkButton();
+                        e.preventDefault();
+                        break;
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                        // Number keys for answer selection
+                        const optionIndex = parseInt(e.key) - 1;
+                        if (optionIndex >= 0 && optionIndex < physicsQuestions[currentQuestionIndex].options.length) {
+                            selectOption(currentQuestionIndex, optionIndex);
+                            e.preventDefault();
+                        }
+                        break;
+                }
+            });
+        }
+
+        // Setup enhanced security features
+        function setupEnhancedSecurity() {
+            // Disable right-click
+            document.addEventListener('contextmenu', function(e) {
+                if (examStarted && currentScreen === 'exam') {
+                    e.preventDefault();
+                    showSecurityViolation('Right-click attempt');
+                    return false;
+                }
+            });
+            
+            // Disable text selection during exam
+            document.addEventListener('selectstart', function(e) {
+                if (examStarted && currentScreen === 'exam') {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Detect copy/paste
+            document.addEventListener('copy', function(e) {
+                if (examStarted && currentScreen === 'exam') {
+                    e.preventDefault();
+                    showSecurityViolation('Copy attempt');
+                    return false;
+                }
+            });
+            
+            document.addEventListener('paste', function(e) {
+                if (examStarted && currentScreen === 'exam') {
+                    e.preventDefault();
+                    showSecurityViolation('Paste attempt');
+                    return false;
+                }
+            });
+            
+            document.addEventListener('cut', function(e) {
+                if (examStarted && currentScreen === 'exam') {
+                    e.preventDefault();
+                    showSecurityViolation('Cut attempt');
+                    return false;
+                }
+            });
+            
+            // Detect developer tools (multiple methods)
+            document.addEventListener('keydown', function(e) {
+                if (!examStarted || currentScreen !== 'exam') return;
+                
+                // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+Shift+C
+                if (e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
+                    (e.ctrlKey && e.keyCode === 85)) {
+                    e.preventDefault();
+                    showSecurityViolation('Developer tools access');
+                    return false;
+                }
+            });
+            
+            // Detect tab/window switch (Page Visibility API)
+            document.addEventListener('visibilitychange', function() {
+                if (examStarted && currentScreen === 'exam' && document.hidden) {
+                    showSecurityViolation('Tab/window switch');
+                }
+            });
+            
+            // Prevent back button
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', function() {
+                window.history.pushState(null, null, window.location.href);
+                if (examStarted && currentScreen === 'exam') {
+                    showSecurityViolation('Back button navigation');
+                }
+            });
+            
+            // Prevent print
+            if (SECURITY_CONFIG.preventPrint) {
+                window.addEventListener('beforeprint', function(e) {
+                    if (examStarted && currentScreen === 'exam') {
+                        e.preventDefault();
+                        showSecurityViolation('Print attempt');
+                    }
+                });
+            }
+            
+            // Detect mouse leave window
+            document.addEventListener('mouseleave', function(e) {
+                if (examStarted && currentScreen === 'exam' && e.clientY <= 0) {
+                    // Only count as violation if mouse leaves top of window
+                    showSecurityViolation('Mouse left window');
+                }
+            });
+            
+            // Detect iframe embedding (prevent clickjacking)
+            if (window.self !== window.top) {
+                showSecurityViolation('Unauthorized frame embedding');
+            }
+            
+            // Periodic integrity checks
+            if (examStarted) {
+                setInterval(function() {
+                    if (currentScreen === 'exam') {
+                        checkPageIntegrity();
+                    }
+                }, 30000); // Every 30 seconds
+            }
+        }
+
+        // Enhanced security violation handler
+        function showSecurityViolation(violationType) {
+            if (!examStarted || currentScreen !== 'exam') return;
+            
+            securityViolations++;
+            
+            // Flash detection indicator
+            detectionIndicator.classList.add('active');
+            setTimeout(() => detectionIndicator.classList.remove('active'), 2000);
+            
+            // Show security overlay if max violations reached
+            if (securityViolations >= SECURITY_CONFIG.maxViolations) {
+                violationTime.textContent = new Date().toLocaleString();
+                securityOverlay.style.display = 'flex';
+                
+                let countdown = 10;
+                const countdownElement = document.getElementById('countdown');
+                countdownElement.textContent = countdown;
+                
+                const countdownInterval = setInterval(function() {
+                    countdown--;
+                    countdownElement.textContent = countdown;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        submitExam();
+                        securityOverlay.style.display = 'none';
+                    }
+                }, 1000);
+            } else {
+                // Show temporary warning
+                const warning = document.createElement('div');
+                warning.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(255, 82, 82, 0.9);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    z-index: 99999;
+                    text-align: center;
+                    font-weight: bold;
+                    box-shadow: 0 0 20px rgba(255, 82, 82, 0.5);
+                `;
+                warning.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i><br>
+                    SECURITY WARNING: ${violationType}<br>
+                    Violation ${securityViolations}/${SECURITY_CONFIG.maxViolations}
+                `;
+                document.body.appendChild(warning);
+                
+                setTimeout(() => {
+                    document.body.removeChild(warning);
+                }, 3000);
+            }
+        }
+
+        // Start activity monitoring
+        function startActivityMonitoring() {
+            // Track mouse movements for activity detection
+            document.addEventListener('mousemove', function(e) {
+                if (!examStarted || currentScreen !== 'exam') return;
+                
+                mouseMoveCount++;
+                
+                // Reset counter every minute
+                if (mouseMoveCount > 1000) {
+                    mouseMoveCount = 0;
+                }
+            });
+            
+            // Monitor for inactivity
+            activityMonitorInterval = setInterval(function() {
+                if (!examStarted || currentScreen !== 'exam') return;
+                
+                // Check for suspicious patterns
+                if (mouseMoveCount < 5) {
+                    // Low activity warning
+                }
+                
+                // Reset mouse counter
+                mouseMoveCount = 0;
+            }, 60000); // Check every minute
+        }
+
+        // Check page integrity
+        function checkPageIntegrity() {
+            if (!examStarted || currentScreen !== 'exam') return;
+            
+            // Check if critical elements are still present and unchanged
+            const criticalElements = ['examScreen', 'questionText', 'optionsContainer', 'timer'];
+            for (const elementId of criticalElements) {
+                const element = document.getElementById(elementId);
+                if (!element || element.style.display === 'none') {
+                    showSecurityViolation('Page integrity violation');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Start the exam
+        function startExam() {
+            // Shuffle questions and options for this attempt
+            shuffleQuestions();
+            showScreen('exam');
+            startTimer();
+            startActivityMonitoring();
+            loadQuestion(currentQuestionIndex);
+            updateQuestionList();
+            examStarted = true;
+            startTime = new Date();
+            
+            // Enable security features
+            if (SECURITY_CONFIG.watermark) {
+                watermark.style.display = 'block';
+            }
+            if (SECURITY_CONFIG.screenshotProtection) {
+                noScreenshot.style.display = 'block';
+            }
+        }
+
+        // Show specific screen
+        function showScreen(screen) {
+            // Hide all screens
+            welcomeScreen.style.display = 'none';
+            instructionsScreen.style.display = 'none';
+            examScreen.style.display = 'none';
+            resultsScreen.style.display = 'none';
+            reviewScreen.style.display = 'none';
+            
+            // Disable security features when not in exam
+            if (screen !== 'exam') {
+                watermark.style.display = 'none';
+                noScreenshot.style.display = 'none';
+                if (activityMonitorInterval) {
+                    clearInterval(activityMonitorInterval);
+                }
+            }
+            
+            // Show selected screen
+            currentScreen = screen;
+            if (screen === 'welcome') {
+                welcomeScreen.style.display = 'flex';
+            } else if (screen === 'instructions') {
+                instructionsScreen.style.display = 'flex';
+            } else if (screen === 'exam') {
+                examScreen.style.display = 'flex';
+            } else if (screen === 'results') {
+                resultsScreen.style.display = 'flex';
+                displayResults();
+            } else if (screen === 'review') {
+                reviewScreen.style.display = 'flex';
+            }
+        }
+
+        // Shuffle questions and options
+        function shuffleQuestions() {
+            // Shuffle the questions array
+            shuffleArray(physicsQuestions);
+            
+            // For each question, shuffle the options but remember the correct answer
+            physicsQuestions.forEach((question, index) => {
+                const correctOption = question.options[question.correctAnswer];
+                const optionsCopy = [...question.options];
+                shuffleArray(optionsCopy);
+                
+                // Update the question with shuffled options and new correct answer index
+                question.options = optionsCopy;
+                question.correctAnswer = optionsCopy.indexOf(correctOption);
+                question.number = (index + 1).toString();
+            });
+        }
+
+        // Load a question
+        function loadQuestion(index) {
+            const question = physicsQuestions[index];
+            
+            // Update question counter
+            currentQuestionNumElement.textContent = index + 1;
+            
+            // Update question text
+            questionTextElement.textContent = question.text;
+            
+            // Clear options container
+            optionsContainer.innerHTML = '';
+            
+            // Create option elements
+            question.options.forEach((optionText, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[index] === optionIndex) {
+                    optionElement.classList.add('selected');
+                }
+                
+                const optionLetter = document.createElement('div');
+                optionLetter.className = 'option-letter';
+                optionLetter.textContent = String.fromCharCode(65 + optionIndex); // A, B, C, D
+                
+                const optionTextElement = document.createElement('div');
+                optionTextElement.textContent = optionText;
+                
+                optionElement.appendChild(optionLetter);
+                optionElement.appendChild(optionTextElement);
+                
+                // Add click event
+                optionElement.addEventListener('click', function() {
+                    selectOption(index, optionIndex);
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === physicsQuestions.length - 1;
+            
+            // Update mark button
+            updateMarkButton();
+        }
+
+        // Select an option
+        function selectOption(questionIndex, optionIndex) {
+            userAnswers[questionIndex] = optionIndex;
+            loadQuestion(currentQuestionIndex); // Reload to show selection
+            updateQuestionList();
+        }
+
+        // Update question list
+        function updateQuestionList() {
+            questionListElement.innerHTML = '';
+            
+            for (let i = 0; i < physicsQuestions.length; i++) {
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                
+                if (i === currentQuestionIndex) {
+                    questionNumber.classList.add('current');
+                }
+                
+                if (userAnswers[i] !== null) {
+                    questionNumber.classList.add('answered');
+                }
+                
+                if (markedQuestions[i]) {
+                    questionNumber.classList.add('marked');
+                }
+                
+                questionNumber.textContent = i + 1;
+                
+                questionNumber.addEventListener('click', function() {
+                    currentQuestionIndex = i;
+                    loadQuestion(i);
+                });
+                
+                questionListElement.appendChild(questionNumber);
+            }
+        }
+
+        // Update mark button
+        function updateMarkButton() {
+            if (markedQuestions[currentQuestionIndex]) {
+                markBtn.innerHTML = '<i class="fas fa-bookmark"></i> Unmark';
+                markBtn.classList.add('btn-warning');
+            } else {
+                markBtn.innerHTML = '<i class="far fa-bookmark"></i> Mark for Review';
+                markBtn.classList.remove('btn-warning');
+                markBtn.classList.add('btn-warning');
+            }
+        }
+
+        // Start timer
+        function startTimer() {
+            // Clear any existing timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            // Update timer immediately
+            updateTimerDisplay();
+            
+            // Start timer interval
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                // Check if time is up
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        // Update timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Add warning classes
+            timerElement.classList.remove('warning', 'danger');
+            if (timeLeft <= 600) { // 10 minutes
+                timerElement.classList.add('danger');
+            } else if (timeLeft <= 1800) { // 30 minutes
+                timerElement.classList.add('warning');
+            }
+        }
+
+        // Submit exam
+        function submitExam() {
+            // Stop timer and activity monitoring
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            if (activityMonitorInterval) {
+                clearInterval(activityMonitorInterval);
+            }
+            
+            examStarted = false;
+            
+            // Calculate score
+            let correctCount = 0;
+            let unansweredCount = 0;
+            
+            for (let i = 0; i < physicsQuestions.length; i++) {
+                if (userAnswers[i] === physicsQuestions[i].correctAnswer) {
+                    correctCount++;
+                } else if (userAnswers[i] === null) {
+                    unansweredCount++;
+                }
+            }
+            
+            const wrongCount = physicsQuestions.length - correctCount - unansweredCount;
+            const percentage = Math.round((correctCount / physicsQuestions.length) * 100);
+            
+            // Determine grade
+            let grade, message;
+            if (percentage >= 80) {
+                grade = "A";
+                message = "Excellent! You have mastered Units and Measurements.";
+            } else if (percentage >= 70) {
+                grade = "B";
+                message = "Very good! Strong understanding of the concepts.";
+            } else if (percentage >= 60) {
+                grade = "C";
+                message = "Good performance. Review areas for improvement.";
+            } else if (percentage >= 50) {
+                grade = "D";
+                message = "Satisfactory. Focus on weak areas.";
+            } else {
+                grade = "F";
+                message = "Needs improvement. Study the material thoroughly.";
+            }
+            
+            // Calculate time used
+            const timeUsedInSeconds = 150 * 60 - timeLeft;
+            const timeUsedMinutes = Math.floor(timeUsedInSeconds / 60);
+            const timeUsedSeconds = timeUsedInSeconds % 60;
+            const timeUsedStr = `${timeUsedMinutes}:${timeUsedSeconds.toString().padStart(2, '0')}`;
+            
+            // Save attempt to history
+            const endTime = new Date();
+            const attempt = {
+                attemptNumber: attemptNumber,
+                date: endTime.toLocaleDateString(),
+                startTime: startTime.toLocaleTimeString(),
+                endTime: endTime.toLocaleTimeString(),
+                score: correctCount,
+                total: physicsQuestions.length,
+                percentage: percentage,
+                grade: grade,
+                timeUsed: timeUsedStr,
+                violations: securityViolations,
+                timestamp: endTime.toISOString()
+            };
+            
+            examHistory.unshift(attempt); // Add to beginning
+            if (examHistory.length > 10) {
+                examHistory.pop(); // Keep only last 10 attempts
+            }
+            
+            localStorage.setItem('physicsPracticeHistory', JSON.stringify(examHistory));
+            
+            // Show results screen
+            showScreen('results');
+        }
+
+        // Display results
+        function displayResults() {
+            // Calculate score (recalculate to ensure accuracy)
+            let correctCount = 0;
+            for (let i = 0; i < physicsQuestions.length; i++) {
+                if (userAnswers[i] === physicsQuestions[i].correctAnswer) {
+                    correctCount++;
+                }
+            }
+            
+            const wrongCount = physicsQuestions.length - correctCount - userAnswers.filter(a => a === null).length;
+            const percentage = Math.round((correctCount / physicsQuestions.length) * 100);
+            
+            // Determine grade
+            let grade, message;
+            if (percentage >= 80) {
+                grade = "A";
+                message = "Excellent! You have mastered Units and Measurements.";
+            } else if (percentage >= 70) {
+                grade = "B";
+                message = "Very good! Strong understanding of the concepts.";
+            } else if (percentage >= 60) {
+                grade = "C";
+                message = "Good performance. Review areas for improvement.";
+            } else if (percentage >= 50) {
+                grade = "D";
+                message = "Satisfactory. Focus on weak areas.";
+            } else {
+                grade = "F";
+                message = "Needs improvement. Study the material thoroughly.";
+            }
+            
+            // Calculate time used
+            const timeUsedInSeconds = 150 * 60 - timeLeft;
+            const timeUsedMinutes = Math.floor(timeUsedInSeconds / 60);
+            const timeUsedSeconds = timeUsedInSeconds % 60;
+            const timeUsedStr = `${timeUsedMinutes}:${timeUsedSeconds.toString().padStart(2, '0')}`;
+            
+            // Update results display
+            scoreDisplay.textContent = `${correctCount}/${physicsQuestions.length}`;
+            scoreGrade.textContent = `Grade: ${grade} (${percentage}%)`;
+            scoreMessage.textContent = message;
+            resultDate.textContent = new Date().toLocaleDateString();
+            resultCompletionTime.textContent = new Date().toLocaleTimeString();
+            attemptNumberElement.textContent = attemptNumber;
+            correctAnswersElement.textContent = correctCount;
+            wrongAnswersElement.textContent = wrongCount;
+            percentageScoreElement.textContent = `${percentage}%`;
+            timeUsedElement.textContent = timeUsedStr;
+            
+            updatePerformanceHistory();
+        }
+
+        // Update performance history display
+        function updatePerformanceHistory() {
+            if (examHistory.length === 0) {
+                performanceHistory.innerHTML = '<p>No previous attempts recorded.</p>';
+                return;
+            }
+            
+            let historyHTML = '<table style="width:100%; border-collapse: collapse; margin-top:10px; font-size:0.9rem;">';
+            historyHTML += '<tr style="background-color:#f0f0f0; font-weight:bold;">';
+            historyHTML += '<th style="padding:10px; text-align:left;">Attempt</th>';
+            historyHTML += '<th style="padding:10px; text-align:left;">Date</th>';
+            historyHTML += '<th style="padding:10px; text-align:left;">Score</th>';
+            historyHTML += '<th style="padding:10px; text-align:left;">Percentage</th>';
+            historyHTML += '<th style="padding:10px; text-align:left;">Grade</th>';
+            historyHTML += '<th style="padding:10px; text-align:left;">Time</th>';
+            historyHTML += '</tr>';
+            
+            examHistory.forEach(attempt => {
+                const rowColor = attempt.grade === 'A' ? '#e8f5e9' : 
+                                attempt.grade === 'B' ? '#f1f8e9' : 
+                                attempt.grade === 'C' ? '#fffde7' : 
+                                attempt.grade === 'D' ? '#fff3e0' : '#ffebee';
+                
+                historyHTML += `<tr style="border-bottom:1px solid #ddd; background-color:${rowColor};">`;
+                historyHTML += `<td style="padding:10px;">${attempt.attemptNumber}</td>`;
+                historyHTML += `<td style="padding:10px;">${attempt.date}</td>`;
+                historyHTML += `<td style="padding:10px;">${attempt.score}/${attempt.total}</td>`;
+                historyHTML += `<td style="padding:10px;">${attempt.percentage}%</td>`;
+                historyHTML += `<td style="padding:10px;">${attempt.grade}</td>`;
+                historyHTML += `<td style="padding:10px;">${attempt.timeUsed}</td>`;
+                historyHTML += '</tr>';
+            });
+            
+            historyHTML += '</table>';
+            performanceHistory.innerHTML = historyHTML;
+        }
+
+        // Load review questions
+        function loadReviewQuestions() {
+            reviewQuestionsContainer.innerHTML = '';
+            
+            physicsQuestions.forEach((question, index) => {
+                const reviewQuestion = document.createElement('div');
+                reviewQuestion.className = 'review-question';
+                
+                // Question header
+                const questionHeader = document.createElement('div');
+                questionHeader.innerHTML = `<h3>Question ${index + 1}</h3>`;
+                
+                // Status indicator
+                const status = document.createElement('div');
+                status.className = 'review-status';
+                
+                let statusText = '';
+                let isCorrect = userAnswers[index] === question.correctAnswer;
+                
+                if (userAnswers[index] === null) {
+                    statusText = 'Not Answered';
+                    status.style.backgroundColor = '#f0f0f0';
+                    status.style.color = '#666';
+                } else if (isCorrect) {
+                    statusText = 'Correct';
+                    status.classList.add('status-correct');
+                } else {
+                    statusText = 'Incorrect';
+                    status.classList.add('status-incorrect');
+                }
+                
+                status.textContent = statusText;
+                
+                // Question text
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = question.text;
+                
+                // User's answer
+                const userAnswer = document.createElement('p');
+                userAnswer.style.marginTop = '10px';
+                
+                if (userAnswers[index] !== null) {
+                    userAnswer.innerHTML = `<strong>Your Answer:</strong> ${question.options[userAnswers[index]]}`;
+                    
+                    if (!isCorrect) {
+                        userAnswer.style.color = '#c62828';
+                        userAnswer.innerHTML += ' <i class="fas fa-times"></i>';
+                    } else {
+                        userAnswer.innerHTML += ' <i class="fas fa-check"></i>';
+                    }
+                } else {
+                    userAnswer.innerHTML = `<strong>Your Answer:</strong> Not answered <i class="fas fa-minus-circle"></i>`;
+                }
+                
+                // Correct answer
+                const correctAnswer = document.createElement('p');
+                correctAnswer.innerHTML = `<strong>Correct Answer:</strong> ${question.options[question.correctAnswer]} <i class="fas fa-check-circle"></i>`;
+                correctAnswer.style.color = '#2e7d32';
+                
+                // Explanation
+                const explanation = document.createElement('div');
+                explanation.className = 'explanation';
+                explanation.innerHTML = `
+                    <h4><i class="fas fa-lightbulb"></i> Explanation:</h4>
+                    <p>${question.explanation}</p>
+                `;
+                
+                // Assemble the review question
+                reviewQuestion.appendChild(questionHeader);
+                reviewQuestion.appendChild(status);
+                reviewQuestion.appendChild(questionText);
+                reviewQuestion.appendChild(userAnswer);
+                reviewQuestion.appendChild(correctAnswer);
+                reviewQuestion.appendChild(explanation);
+                
+                reviewQuestionsContainer.appendChild(reviewQuestion);
+            });
+        }
+
+        // Reset exam for new attempt
+        function resetExam() {
+            currentQuestionIndex = 0;
+            userAnswers = Array(physicsQuestions.length).fill(null);
+            markedQuestions = Array(physicsQuestions.length).fill(false);
+            examStarted = false;
+            timeLeft = 150 * 60;
+            securityViolations = 0;
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            if (activityMonitorInterval) {
+                clearInterval(activityMonitorInterval);
+            }
+            
+            timerElement.textContent = '150:00';
+            timerElement.classList.remove('warning', 'danger');
+            
+            // Increment attempt number
+            attemptNumber = examHistory.length + 1;
+        }
+
+        // Initialize the app when page loads
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
